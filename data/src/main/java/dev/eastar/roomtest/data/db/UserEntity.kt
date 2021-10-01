@@ -12,7 +12,7 @@ data class UserEntity(
     val date: LocalDate = LocalDate.now(),
     val location: String?,
     val photo: String?,
-    val reason: String = ""
+    val desc: String = ""
 )
 
 enum class Level {

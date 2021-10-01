@@ -13,7 +13,7 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
                 `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 `level` TEXT NOT NULL,
                 `date` TEXT NOT NULL,
-                `reason` TEXT NOT NULL,
+                `desc` TEXT NOT NULL,
                 `location` TEXT,
                 `photo` TEXT)"""
         )
@@ -23,7 +23,7 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
                       id,
                       level,
                       date,
-                      reason,
+                      desc,
                       location,
                       photo
                       FROM UserEntity""")
@@ -32,17 +32,17 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             val id = cursor.getLong(0)
             val level = cursor.getInt(1)
             val date = cursor.getLong(2)
-            val reason = cursor.getString(3)
+            val desc = cursor.getString(3)
             val location = cursor.getStringOrNull(4)
             val photo = cursor.getStringOrNull(5)
 
             database.execSQL(
-                """INSERT INTO UserEntity3 (id, level, date, reason, location, photo )
+                """INSERT INTO UserEntity3 (id, level, date, desc, location, photo )
                      VALUES (
                      $id,
                      $level,
                      '${Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate()}',
-                     '$reason',
+                     '$desc',
                      ${location?.let { "'$location'" } ?: "NULL"},
                      ${photo?.let { "'$location'" } ?: "NULL"}
                     );"""
