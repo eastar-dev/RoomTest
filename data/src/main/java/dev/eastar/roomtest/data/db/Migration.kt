@@ -1,10 +1,17 @@
-package dev.eastar.roomtest.data.db.migration
+package dev.eastar.roomtest.data.db
 
 import androidx.core.database.getStringOrNull
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import java.time.Instant
 import java.time.ZoneId
+
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE UserEntity ADD COLUMN location TEXT")
+        database.execSQL("ALTER TABLE UserEntity ADD COLUMN photo TEXT")
+    }
+}
 
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
@@ -26,7 +33,8 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
                       desc,
                       location,
                       photo
-                      FROM UserEntity""")
+                      FROM UserEntity"""
+            )
 
         while (cursor.moveToNext()) {
             val id = cursor.getLong(0)
