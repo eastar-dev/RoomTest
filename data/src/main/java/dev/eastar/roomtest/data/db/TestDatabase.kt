@@ -6,6 +6,6 @@ import androidx.room.TypeConverters
 
 @Database(entities = [UserEntity::class], version = 1, exportSchema = true)
 @TypeConverters(DateConverter::class)
-abstract class UserRoomDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
+abstract class TestDatabase : RoomDatabase() {
+    abstract fun getUserDao(): UserDao
 }
