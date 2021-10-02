@@ -46,15 +46,16 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
+
 android {
     compileOptions {
         coreLibraryDesugaringEnabled true
     }
 }
-
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.6.0'

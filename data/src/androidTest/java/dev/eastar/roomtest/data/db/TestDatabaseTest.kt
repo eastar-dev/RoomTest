@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -34,15 +35,18 @@ class TestDatabaseTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadInList() {
+    fun writeUserAndReadInList() = runBlocking {
         //givens
         val user: UserEntity = UserEntity(0, "hello", Level.Level1, LocalDate.now())
 
         //when
         val id = userDao.insertUser(user)
-        val actual = userDao.getUser(2)
+        val actual = userDao.getUser(id)
 
         //then
-        assertThat(actual?.level).isEqualTo(Level.Level1)
+        assertThat(actual).let {
+            it.isNotNull()
+            it.isEqualTo(user.copy(id = id))
+        }
     }
 }

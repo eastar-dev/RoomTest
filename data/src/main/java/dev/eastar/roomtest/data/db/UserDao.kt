@@ -7,16 +7,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Dao
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(entity: UserEntity): Long
+    suspend fun insertUser(entity: UserEntity): Long
 
     @Query("SELECT * FROM USERS WHERE id = :id")
-    fun getUser(id: Long): UserEntity
+    suspend fun getUser(id: Long): UserEntity?
 
     @Query("SELECT * FROM USERS")
     fun getAllUsers(): Flow<List<UserEntity>>
