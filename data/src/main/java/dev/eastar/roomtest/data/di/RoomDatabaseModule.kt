@@ -20,9 +20,14 @@ object RoomDatabaseModule {
     @Provides
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): TestDatabase {
-        return Room.databaseBuilder(context, TestDatabase::class.java, "user-db")
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-            .build()
-    }
+    ): TestDatabase = Room.databaseBuilder(context, TestDatabase::class.java, "user-db")
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideDao(
+        database: TestDatabase
+    ) = database.getUserDao()
+
 }
