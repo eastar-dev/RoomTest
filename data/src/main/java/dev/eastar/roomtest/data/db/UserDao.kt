@@ -16,7 +16,7 @@ interface UserDao {
     fun insertUser(entity: UserEntity): Long
 
     @Query("SELECT * FROM USERS WHERE id = :id")
-    fun getUser(id: Long): UserEntity?
+    fun getUser(id: Long): UserEntity
 
     @Query("SELECT * FROM USERS")
     fun getAllUsers(): Flow<List<UserEntity>>

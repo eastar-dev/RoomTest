@@ -8,9 +8,9 @@ import java.time.LocalDate
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    val name: String = "",
     val level: Level,
-    val desc: String = "",
-    // val date: LocalDate = LocalDate.now(),
+    val date: LocalDate = LocalDate.now(),
     // val location: String?,
     // val photo: String?,
 )

@@ -18,9 +18,9 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
         database.execSQL(
             """CREATE TABLE IF NOT EXISTS `UserEntity3` (
                 `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                `name` TEXT NOT NULL,
                 `level` TEXT NOT NULL,
                 `date` TEXT NOT NULL,
-                `desc` TEXT NOT NULL,
                 `location` TEXT,
                 `photo` TEXT)"""
         )
@@ -28,9 +28,9 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             database.query(
                 """SELECT
                       id,
+                      name,
                       level,
                       date,
-                      desc,
                       location,
                       photo
                       FROM UserEntity"""
@@ -38,19 +38,19 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
 
         while (cursor.moveToNext()) {
             val id = cursor.getLong(0)
-            val level = cursor.getInt(1)
-            val date = cursor.getLong(2)
-            val desc = cursor.getString(3)
+            val name = cursor.getString(1)
+            val level = cursor.getInt(2)
+            val date = cursor.getLong(3)
             val location = cursor.getStringOrNull(4)
             val photo = cursor.getStringOrNull(5)
 
             database.execSQL(
-                """INSERT INTO UserEntity3 (id, level, date, desc, location, photo )
+                """INSERT INTO UserEntity3 (id, name, level, date, location, photo )
                      VALUES (
                      $id,
                      $level,
+                     '$name',
                      '${Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate()}',
-                     '$desc',
                      ${location?.let { "'$location'" } ?: "NULL"},
                      ${photo?.let { "'$location'" } ?: "NULL"}
                     );"""

@@ -10,9 +10,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
-class UserRoomDatabaseTest {
+class TestDatabaseTest {
     private lateinit var userDao: UserDao
     private lateinit var db: TestDatabase
 
@@ -34,12 +35,12 @@ class UserRoomDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
-        //given
-        val user: UserEntity = UserEntity(0, Level.Level1, "level1")
+        //givens
+        val user: UserEntity = UserEntity(0, "hello", Level.Level1, LocalDate.now())
 
         //when
-        userDao.insertUser(user)
-        val actual = userDao.getUser(1)
+        val id = userDao.insertUser(user)
+        val actual = userDao.getUser(2)
 
         //then
         assertThat(actual?.level).isEqualTo(Level.Level1)
