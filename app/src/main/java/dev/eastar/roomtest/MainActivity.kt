@@ -55,11 +55,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val context = LocalContext.current
+            val coroutineScope = rememberCoroutineScope()
 
             RoomTestTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    val coroutineScope = rememberCoroutineScope()
                     MainApp(
                         dao.getAllUsers().collectAsState(initial = emptyList())
                     ) {

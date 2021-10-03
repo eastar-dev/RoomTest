@@ -11,7 +11,7 @@ data class UserEntity(
     val id: Long = 0,
     val name: String = "",
     val level: Level,
-    val date: LocalDateTime = LocalDateTime.now(),
+    val date: LocalDateTime = LocalDateTime.now().withNano(0),
 ) {
     companion object {
         val RANDOM: UserEntity
@@ -19,7 +19,7 @@ data class UserEntity(
                 0,
                 ('a'..'z').shuffled().take(Random.nextInt('z' - 'a')).toCharArray().joinToString(""),
                 Level.values().random(),
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
             )
     }
 }

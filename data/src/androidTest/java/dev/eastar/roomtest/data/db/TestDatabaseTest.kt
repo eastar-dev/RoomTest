@@ -11,7 +11,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @RunWith(AndroidJUnit4::class)
