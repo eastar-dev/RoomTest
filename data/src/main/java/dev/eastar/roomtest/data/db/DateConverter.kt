@@ -1,17 +1,20 @@
 package dev.eastar.roomtest.data.db
 
 import androidx.room.TypeConverter
-import java.time.LocalDate
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 object DateConverter {
-
     @TypeConverter
-    fun toDate(dateText: String): LocalDate {
-        return LocalDate.parse(dateText)
+    fun Long.toLocalDateTime(): LocalDateTime {
+        return Instant.ofEpochMilli(this).atOffset(ZoneOffset.UTC).toLocalDateTime()
     }
 
     @TypeConverter
-    fun fromDate(date: LocalDate): String {
-        return date.toString()
+    fun LocalDateTime.toMilli(): Long {
+        return runCatching {
+            atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+        }.getOrDefault(0L)
     }
 }

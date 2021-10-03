@@ -1,5 +1,6 @@
 package dev.eastar.roomtest
 
+import android.log.Log
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -24,12 +25,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
-import dev.eastar.roomtest.data.db.Level
 import dev.eastar.roomtest.data.db.UserDao
 import dev.eastar.roomtest.data.db.UserEntity
 import dev.eastar.roomtest.ui.theme.RoomTestTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,10 +48,19 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     val coroutineScope = rememberCoroutineScope()
-                    MainApp {
+                    MainApp(dao.getAllUsers()) {
                         coroutineScope.launch {
-                            val id = dao.insertUser(UserEntity(0, "hello2", Level.Level2, LocalDate.now()))
-                            Toast.makeText(context, "You clicked First item + $id", Toast.LENGTH_SHORT).show()
+                            val item = UserEntity.RANDOM
+                            val id = dao.insertUser(item)
+                            Toast.makeText(context, item.copy(id).toString(), Toast.LENGTH_SHORT).show()
+
+                            val items = dao.getAllUsers()
+
+                            items.collect {
+                                it.forEach {
+                                    Log.e(it)
+                                }
+                            }
                         }
                     }
                 }
@@ -60,7 +71,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainApp(
-    onItemClicked: (String) -> Unit = {}
+    items: Flow<List<UserEntity>>,
+    onItemClicked: (String) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -74,18 +86,18 @@ fun MainApp(
                 Modifier
                     .background(MaterialTheme.colors.background)
                     .clickable {
-                        onItemClicked("First item")
+                        onItemClicked("insert")
                     }) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "First item"
+                    text = "Random insert item"
                 )
             }
             Divider()
         }
 
         // Add 5 items
-        items(50) { index ->
+        items(10) { index ->
             Text(text = "Item: $index")
             Divider()
         }
@@ -101,6 +113,6 @@ fun MainApp(
 @Composable
 fun DefaultPreview() {
     RoomTestTheme {
-        MainApp()
+        MainApp(flowOf(listOf(UserEntity.RANDOM, UserEntity.RANDOM, UserEntity.RANDOM)))
     }
 }
