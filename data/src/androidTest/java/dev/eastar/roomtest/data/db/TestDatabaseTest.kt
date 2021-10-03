@@ -38,7 +38,7 @@ class TestDatabaseTest {
     @Throws(Exception::class)
     fun writeUserAndReadInList() = runBlocking {
         //givens
-        val user: UserEntity = UserEntity(0, "hello", Level.Level1, LocalDateTime.now())
+        val user = UserEntity(0, "hello", Level.Level1, LocalDateTime.now())
 
         //when
         val id = userDao.insertUser(user)
