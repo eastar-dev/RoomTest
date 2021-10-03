@@ -29,5 +29,4 @@ object RoomDatabaseModule {
     fun provideDao(
         database: TestDatabase
     ) = database.getUserDao()
-
 }
