@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RunWith(AndroidJUnit4::class)
 class TestDatabaseTest {
@@ -37,7 +38,7 @@ class TestDatabaseTest {
     @Throws(Exception::class)
     fun writeUserAndReadInList() = runBlocking {
         //givens
-        val user: UserEntity = UserEntity(0, "hello", Level.Level1, LocalDate.now())
+        val user: UserEntity = UserEntity(0, "hello", Level.Level1, LocalDateTime.now())
 
         //when
         val id = userDao.insertUser(user)

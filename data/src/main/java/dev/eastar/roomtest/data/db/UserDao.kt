@@ -25,7 +25,4 @@ interface UserDao {
 
     @Query("SELECT * FROM USERS")
     fun getAllUsers(): Flow<List<UserEntity>>
-
-    @Query("SELECT * FROM USERS WHERE level = :level")
-    fun getUserLevel(level: Level): Flow<List<UserEntity>>
 }
