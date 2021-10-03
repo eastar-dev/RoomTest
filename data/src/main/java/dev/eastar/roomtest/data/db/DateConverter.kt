@@ -7,14 +7,12 @@ import java.time.ZoneOffset
 
 object DateConverter {
     @TypeConverter
-    fun Long.toLocalDateTime(): LocalDateTime {
-        return Instant.ofEpochMilli(this).atOffset(ZoneOffset.UTC).toLocalDateTime()
+    fun String.toLocalDateTime(): LocalDateTime {
+        return LocalDateTime.parse(this)
     }
 
     @TypeConverter
-    fun LocalDateTime.toMilli(): Long {
-        return runCatching {
-            atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
-        }.getOrDefault(0L)
+    fun LocalDateTime.fromLocalDateTime(): String {
+        return toString()
     }
 }

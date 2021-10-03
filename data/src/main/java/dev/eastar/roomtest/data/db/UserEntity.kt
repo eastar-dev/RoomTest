@@ -21,7 +21,7 @@ data class UserEntity(
                 0,
                 ('a'..'z').shuffled().take(Random.nextInt(4, 'z' - 'a')).toCharArray().joinToString(""),
                 Level.values().random(),
-                LocalDateTime.now().withNano(0),
+                LocalDateTime.now(),
             )
     }
 }
