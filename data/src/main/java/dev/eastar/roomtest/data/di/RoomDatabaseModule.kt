@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.eastar.roomtest.data.db.MIGRATION_1_2
 import dev.eastar.roomtest.data.db.TestDatabase
 import javax.inject.Singleton
 
@@ -19,6 +20,7 @@ object RoomDatabaseModule {
     fun provideDatabase(
         @ApplicationContext context: Context
     ): TestDatabase = Room.databaseBuilder(context, TestDatabase::class.java, "user-db")
+        .addMigrations(MIGRATION_1_2)
         .build()
 
     @Singleton
