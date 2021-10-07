@@ -7,10 +7,15 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -30,13 +35,17 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.eastar.roomtest.data.db.Level
 import dev.eastar.roomtest.data.db.UserDao
@@ -109,15 +118,33 @@ fun MainApp(
             @OptIn(ExperimentalMaterialApi::class)
             ListItem(
                 icon = {
-                    Icon(
-                        data.level.icon,
-                        contentDescription = data.level.name,
-                        tint = data.level.color,
-                    )
+                    Box(
+                        Modifier
+                            .height(70.dp)
+                            .width(70.dp),
+                        contentAlignment = Alignment.TopEnd
+                    ) {
+                        @OptIn(ExperimentalCoilApi::class)
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            painter = rememberImagePainter(
+                                data.photo ?: "https://picsum.photos/id/101/100/100"
+                            ),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillWidth,
+                        )
+                        // Icon(
+                        //     data.level.icon,
+                        //     contentDescription = data.level.name,
+                        //     tint = data.level.color,
+                        // )
+                    }
                 },
-                overlineText = { Text(text = data.level.name) },
+                overlineText = { Text(
+                    text = "data.date.toString()"
+                ) },
                 text = { Text(text = data.name) },
-                secondaryText = { Text(text = data.date.toString()) },
+                secondaryText = { Text(text = data.location ?: "UNKNOWN") },
             )
             Divider()
         }
