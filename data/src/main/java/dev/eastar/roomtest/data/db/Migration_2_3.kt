@@ -13,16 +13,7 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             """CREATE TABLE IF NOT EXISTS `USERS_3` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `level` TEXT NOT NULL, `date` TEXT NOT NULL, `location` TEXT, `photo` TEXT)"""
         database.execSQL(tempTable)
         val cursor =
-            database.query(
-                """SELECT
-                      id,
-                      name,
-                      level,
-                      date,
-                      location,
-                      photo
-                      FROM USERS"""
-            )
+            database.query("""SELECT id, name, level, date, location, photo FROM USERS""")
 
         while (cursor.moveToNext()) {
             val id = cursor.getLong(0)
@@ -39,8 +30,8 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
                      '$name',
                      '$level',
                      '${Instant.ofEpochMilli(date).atOffset(ZoneOffset.UTC).toLocalDateTime()}',
-                     ${location?.let { "'$location'" } ?: "NULL"},
-                     ${photo?.let { "'$photo'" } ?: "NULL"}
+                     ${location?.let { "'$location'" }},
+                     ${photo?.let { "'$photo'" }}
                     );"""
             )
         }

@@ -43,12 +43,12 @@ class TestDatabaseUnitTest {
 
         //when
         val id = userDao.insertUser(user)
-        val actual = userDao.getUser(id)
+        val actual = userDao.getUser(id[0])
 
         //then
         Truth.assertThat(actual).let {
             it.isNotNull()
-            it.isEqualTo(user.copy(id = id))
+            it.isEqualTo(user.copy(id = id[0]))
         }
     }
 }
