@@ -55,7 +55,7 @@ android {
     }
 }
 
-//room migration
+//room
 android {
     defaultConfig {
         javaCompileOptions {
@@ -67,12 +67,19 @@ android {
             }
         }
     }
-
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
-
+dependencies {
+    def room_version = "2.4.0-alpha05"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
+}
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
